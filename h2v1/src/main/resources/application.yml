@@ -1,0 +1,44 @@
+
+
+
+server:
+  port: 18888
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+#        web-admin-password: 123456
+        web-allow-others: true
+
+# http://h2database.com/html/features.html#database_url
+# http://h2database.com/html/commands.html?highlight=IGNORECASE&search=IGNORECASE#set_ignorecase
+datasource:
+  h2:
+    tcp-port: 9092
+    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:tcp://localhost/~/test;MODE=MYSQL;DATABASE_TO_UPPER=false;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;
+#    url: jdbc:h2:tcp://localhost/mem:test;MODE=MYSQL;DATABASE_TO_UPPER=false;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;
+    url: jdbc:h2:mem:test;MODE=MYSQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;
+    username: sa
+    password: 123456
+    filters: stat
+    initialSize: 2
+    maxActive: 300
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: false
+    maxPoolPreparedStatementPerConnectionSize: 200
+
+
+
+
+
