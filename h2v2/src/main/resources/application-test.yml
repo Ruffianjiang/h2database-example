@@ -1,0 +1,12 @@
+
+server:
+  port: 28889
+
+datasource:
+  h2:
+    tcp-port: 9099
+
+
+
+
+

@@ -50,8 +50,8 @@ public class H2TcpClientTest {
                         "");
         conn = DriverManager.
                 getConnection("jdbc:h2:tcp://" + h2Ip + ":" + h2TcpPort + "/mem:test;DB_CLOSE_DELAY=-1;MODE=MYSQL",
-                        "",
-                        "");
+                        "sa",
+                        "123456");
         conn = DriverManager.
                 getConnection("jdbc:h2:tcp://" + h2Ip + ":" + h2TcpPort + "/mem:test_tcp;DB_CLOSE_DELAY=-1;MODE=MYSQL",
                         "sa",

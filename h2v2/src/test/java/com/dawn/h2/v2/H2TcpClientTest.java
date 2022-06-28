@@ -1,5 +1,6 @@
 package com.dawn.h2.v2;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -16,6 +18,7 @@ import java.util.Map;
 
 @Slf4j
 @SpringBootTest
+@ActiveProfiles("test")
 public class H2TcpClientTest {
 
 
@@ -31,13 +34,41 @@ public class H2TcpClientTest {
     @Value("${datasource.h2.tcp-port:9092}")
     private String h2TcpPort;
 
+    private String h2Ip = "192.168.32.196";
+//    private String h2Ip = "localhost";
+
 
     @Test
     public void connectTest() throws SQLException {
 
         log.info("==============================start");
-        Connection conn = DriverManager.
-                getConnection("jdbc:h2:tcp://localhost:" + h2TcpPort + "/~/test2;DB_CLOSE_DELAY=-1;MODE=MYSQL", "", "");
+        Connection conn = null;
+
+        conn = DriverManager.
+                getConnection("jdbc:h2:mem://" + h2Ip + ":" + h2TcpPort + "/mem:test;DB_CLOSE_DELAY=-1;MODE=MYSQL",
+                        "",
+                        "");
+        conn = DriverManager.
+                getConnection("jdbc:h2:tcp://" + h2Ip + ":" + h2TcpPort + "/mem:test;DB_CLOSE_DELAY=-1;MODE=MYSQL",
+                        "sa",
+                        "123456");
+        conn = DriverManager.
+                getConnection("jdbc:h2:tcp://" + h2Ip + ":" + h2TcpPort + "/mem:test_tcp;DB_CLOSE_DELAY=-1;MODE=MYSQL",
+                        "sa",
+                        "");
+        conn = DriverManager.
+                getConnection("jdbc:h2:tcp://" + h2Ip + ":" + h2TcpPort + "/mem:test_tcp2;DB_CLOSE_DELAY=-1;MODE=MYSQL",
+                        "sa",
+                        "");
+        conn = DriverManager.
+                getConnection("jdbc:h2:tcp://" + h2Ip + ":" + h2TcpPort + "/mem:test_tcp3;DB_CLOSE_DELAY=-1;" +
+                                "MODE=MYSQL",
+                        "sa",
+                        "");
+        conn = DriverManager.
+                getConnection("jdbc:h2:tcp://" + h2Ip + ":" + h2TcpPort + "/mem:test_tcp4;DB_CLOSE_DELAY=-1;MODE=MYSQL",
+                        "sa",
+                        "");
 
         Statement stat = conn.createStatement();
         stat.execute("DROP TABLE IF EXISTS TEST_TCP_CON");
@@ -62,6 +93,10 @@ public class H2TcpClientTest {
 
     @Test
     public void dataSourceTest() throws SQLException {
+
+        DruidDataSource druidDataSource = (DruidDataSource) dataSource;
+        log.info(druidDataSource.getUrl());
+
         Connection conn = dataSource.getConnection();
 
         Statement stat = conn.createStatement();

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -18,16 +19,17 @@ import java.util.Map;
 
 @Slf4j
 @SpringBootTest
+@ActiveProfiles("test")
 public class H2MemClientTest {
 
 
     @Autowired
-    @Qualifier("h2DataSource")
+    @Qualifier("h2MemDataSource")
     private DataSource dataSource;
 
 
     @Autowired
-    @Qualifier("h2Template")
+    @Qualifier("h2MemTemplate")
     private JdbcTemplate jdbcTemplate;
 
     @Test
